@@ -1,0 +1,35 @@
+CREATE TABLE Pizza (
+    ID_Pizza INT PRIMARY KEY AUTO_INCREMENT,
+    Nome VARCHAR(255) NOT NULL,
+    Ingredienti VARCHAR(255) NOT NULL,
+    Prezzo INT NOT NULL,
+);
+
+
+CREATE TABLE Utente (
+    ID_Utente INT PRIMARY KEY AUTO_INCREMENT,
+    Nome VARCHAR(255) NOT NULL,
+    Cognome VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) UNIQUE NOT NULL,
+    Password VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE Ordine (
+    ID_Ordine INT PRIMARY KEY AUTO_INCREMENT,
+    Data DATE NOT NULL,
+    Totale DECIMAL(10, 2) NOT NULL,
+    ID_Utente INT,
+    FOREIGN KEY (ID_Utente) REFERENCES Utente(ID_Utente)
+);
+
+
+CREATE TABLE Ordine_Pizza (
+    ID_Ordine INT,
+    ID_Pizza INT,
+    FOREIGN KEY (ID_Ordine) REFERENCES Ordine(ID_Ordine),
+    FOREIGN KEY (ID_Pizza) REFERENCES Pizza(ID_Pizza),
+    PRIMARY KEY (ID_Ordine, ID_Pizza)
+);
+
+INSERT INTO `utente` (`ID_Utente`, `Nome`, `Cognome`, `Email`, `Password`) VALUES ('0', 'Admin', 'Admin', 'admin@admin', 'Gera53');
