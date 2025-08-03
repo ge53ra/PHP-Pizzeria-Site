@@ -27,7 +27,6 @@ form {
 
 input[type="number"],
 input[type="text"],
-input[type="double"],
 input[type="submit"] {
     display: block;
     width: 100%;
@@ -55,7 +54,7 @@ input[type="submit"]:hover {
         ID Pizza: <input type="number" name="id_pizza" required><br>
         Nome: <input type="text" name="nome" required><br>
         Ingredienti: <input type="text" name="ingredienti" required><br>
-        Prezzo: <input type="double" name="prezzo" required><br>
+        Prezzo: <input type="number" step="0.01" name="prezzo" required><br>
         <input type="submit" name="submit" value="Inserisci Pizza">
         <p><a href="login.php">Indietro</a></p>
     </form>
@@ -67,7 +66,7 @@ if(isset($_POST['submit'])) {
     $idPizza = $_POST['id_pizza'];
     $nome = $_POST['nome'];
     $ingredienti = $_POST['ingredienti'];
-    $prezzo = $_POST['prezzo'];
+    $prezzo = (float)$_POST['prezzo'];
 
     // Connessione al database
     $conn = new mysqli('localhost', 'root', '', 'pizzeriagera');
@@ -77,7 +76,7 @@ if(isset($_POST['submit'])) {
 
     $sql = "INSERT INTO Pizza (ID_Pizza, Nome, Ingredienti, Prezzo) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("issi", $idPizza, $nome, $ingredienti, $prezzo);
+    $stmt->bind_param("issd", $idPizza, $nome, $ingredienti, $prezzo);
     $stmt->execute();
 
     if($stmt->affected_rows > 0) {
